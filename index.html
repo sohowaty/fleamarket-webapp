@@ -11,11 +11,12 @@
 <script type="text/javascript">
     Telegram.WebApp.ready();
     Telegram.WebApp.MainButton.setText('Choose Color').show().onClick(function () {
-        const data = JSON.stringify({hex: colorPicker.color.hexString, rgb: colorPicker.color.rgb});
+        const data = JSON.stringify(pond.getFile().getFileEncodeBase64String());
         Telegram.WebApp.sendData(data);
         Telegram.WebApp.close();
     });
 </script>
+
 <body style="background-color: #ffffff">
 
   <!-- We'll transform this input into a pond -->
@@ -23,13 +24,16 @@
 
   <!-- Load FilePond library -->
   <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+  <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
 
   <!-- Turn all file input elements into ponds -->
   <script>
-  FilePond.parse(document.body);
+  FilePond.registerPlugin(FilePondPluginFileEncode);
+  const inputElement = document.querySelector('input[type="file"]');
+  const pond = FilePond.create(inputElement);
   </script>
+
 </body>
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 
 <script type="text/javascript">
     Telegram.WebApp.expand();
